@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hui.Api.Dal\Hui.Api.Dal.csproj" />
+    <ProjectReference Include="..\Hui.Api.Models\Hui.Api.Models.csproj" />
+  </ItemGroup>
+
+</Project>

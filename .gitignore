@@ -1,0 +1,13 @@
+/src/Hui.Api/obj
+/src/Hui.Api/bin
+/src/Hui.Api.Bll/obj
+/src/Hui.Api.Bll/bin
+/src/Hui.Api.Common/obj
+/src/Hui.Api.Common/bin
+/src/Hui.Api.Dal/obj
+/src/Hui.Api.Dal/bin
+/src/Hui.Api.Models/bin
+/src/Hui.Api.Models/obj
+/src/Hui.Api.Service/bin
+/src/Hui.Api.Service/obj
+/.vs/Hui.Api/v15

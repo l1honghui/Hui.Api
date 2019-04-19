@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hui.Api.Service", "src\Hui.Api\Hui.Api.Service.csproj", "{D978EB72-C910-4743-ACE2-BB21D8D08E22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hui.Api.Service", "src\Hui.Api.Service\Hui.Api.Service.csproj", "{D978EB72-C910-4743-ACE2-BB21D8D08E22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hui.Api.Models", "src\Hui.Api.Models\Hui.Api.Models.csproj", "{7A74B150-4D06-4A74-BAF5-8A78538DB3BE}"
 EndProject

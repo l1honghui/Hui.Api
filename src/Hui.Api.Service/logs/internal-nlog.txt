@@ -45,3 +45,41 @@
 2019-04-19 20:21:42.6720 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: ownFile-web
 2019-04-19 20:21:42.6720 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: blackhole
 2019-04-19 20:21:42.6720 Info Found 58 configuration items
+2019-04-19 20:26:08.1688 Info Message Template Auto Format enabled
+2019-04-19 20:26:08.1688 Info Loading assembly: NLog.Web.AspNetCore
+2019-04-19 20:26:08.2408 Info Adding target File Target[allfile]
+2019-04-19 20:26:08.2522 Info Adding target File Target[ownFile-web]
+2019-04-19 20:26:08.2522 Info Adding target Null Target[blackhole]
+2019-04-19 20:26:08.2522 Info Configured from an XML element in D:\Samplecode\dotnet\Hui.Api\src\Hui.Api.Service\bin\Debug\netcoreapp2.1\nlog.config...
+2019-04-19 20:26:08.2691 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: ownFile-web
+2019-04-19 20:26:08.2691 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: blackhole
+2019-04-19 20:26:08.2691 Info Found 58 configuration items
+2019-04-19 20:29:25.5645 Info Message Template Auto Format enabled
+2019-04-19 20:29:25.5645 Info Loading assembly: NLog.Web.AspNetCore
+2019-04-19 20:29:25.6421 Info Adding target File Target[allfile]
+2019-04-19 20:29:25.6421 Info Adding target File Target[ownFile-web]
+2019-04-19 20:29:25.6421 Info Adding target Null Target[blackhole]
+2019-04-19 20:29:25.6566 Info Configured from an XML element in D:\Samplecode\dotnet\Hui.Api\src\Hui.Api.Service\bin\Debug\netcoreapp2.1\nlog.config...
+2019-04-19 20:29:25.6566 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: ownFile-web
+2019-04-19 20:29:25.6566 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: blackhole
+2019-04-19 20:29:25.6729 Info Found 58 configuration items
+2019-04-19 20:29:34.2076 Info Shutting down logging...
+2019-04-19 20:29:34.2283 Info Logger has been shut down.
+2019-04-19 20:29:57.3422 Info Message Template Auto Format enabled
+2019-04-19 20:29:57.3422 Info Loading assembly: NLog.Web.AspNetCore
+2019-04-19 20:29:57.4125 Info Adding target File Target[allfile]
+2019-04-19 20:29:57.4198 Info Adding target File Target[ownFile-web]
+2019-04-19 20:29:57.4198 Info Adding target Null Target[blackhole]
+2019-04-19 20:29:57.4198 Info Configured from an XML element in D:\Samplecode\dotnet\Hui.Api\src\Hui.Api.Service\bin\Debug\netcoreapp2.1\nlog.config...
+2019-04-19 20:29:57.4374 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: ownFile-web
+2019-04-19 20:29:57.4374 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: blackhole
+2019-04-19 20:29:57.4374 Info Found 58 configuration items
+2019-04-19 20:32:43.0515 Info Message Template Auto Format enabled
+2019-04-19 20:32:43.0591 Info Loading assembly: NLog.Web.AspNetCore
+2019-04-19 20:32:43.1281 Info Adding target File Target[allfile]
+2019-04-19 20:32:43.1431 Info Adding target File Target[ownFile-web]
+2019-04-19 20:32:43.1431 Info Adding target Null Target[blackhole]
+2019-04-19 20:32:43.1523 Info Configured from an XML element in D:\Samplecode\dotnet\Hui.Api\src\Hui.Api.Service\bin\Debug\netcoreapp2.1\nlog.config...
+2019-04-19 20:32:43.1523 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: ownFile-web
+2019-04-19 20:32:43.1669 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: blackhole
+2019-04-19 20:32:43.1669 Info Found 58 configuration items

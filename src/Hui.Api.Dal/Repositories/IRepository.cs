@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Hui.Api.Dal.Repositories
 {
+    /// <summary>
+    /// Dal接口基类，声明大部分通用CURD的标准方法
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TPrimaryKey"></typeparam>
     public interface IRepository<TEntity, TPrimaryKey>
     {
         /// <summary>

@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace Hui.Api.Dal.Repositories
 {
+    /// <summary>
+    /// DAL基类 提供基础CURD功能 使用该类的实体必须继承IEntity
+    /// 该类提供方法查询出来的数据都自动会挂跟踪，如果不需要跟踪请加AsNoTracking()自行编写业务查询逻辑
+    /// </summary>
+    /// <typeparam name="TDbContext"></typeparam>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TPrimaryKey">主键</typeparam>
     public class EfCoreRepositoryBase<TDbContext, TEntity, TPrimaryKey> : RepositoryBase<TEntity, TPrimaryKey>
         where TDbContext : DbContext
         where TEntity : class, IEntity<TPrimaryKey>

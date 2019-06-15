@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace Hui.Api.Dal.Repositories
 {
+    /// <summary>
+    ///  默认实现部分方法，底层实现交给子类
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TPrimaryKey"></typeparam>
     public abstract class RepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, TPrimaryKey> where TEntity : class, IEntity<TPrimaryKey>
     {
         public abstract IQueryable<TEntity> GetAll();

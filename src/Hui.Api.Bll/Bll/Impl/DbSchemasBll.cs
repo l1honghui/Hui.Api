@@ -1,16 +1,25 @@
 ﻿using Hui.Api.Dal;
+using Hui.Api.Dal.Dal;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Hui.Api.Bll.Impl
 {
-    public class DbSchemasBll: IDbSchemasBll
-    { 
+    public class DbSchemasBll : IDbSchemasBll
+    {
         private IDbSchemasDal _dbSchemasDal;
 
-        public DbSchemasBll(IDbSchemasDal dbSchemasDal)
+        private ITestDal _testDal;
+
+        public DbSchemasBll(IDbSchemasDal dbSchemasDal, ITestDal testDal)
         {
             _dbSchemasDal = dbSchemasDal;
+            _testDal = testDal;
+        }
+
+        public async Task Test(int id)
+        {
+            var entity = _testDal.GetAsync(id);
         }
 
         public async Task<List<dynamic>> GetAllTables()
@@ -20,7 +29,7 @@ namespace Hui.Api.Bll.Impl
 
         public async Task<List<dynamic>> GetSchemaTables(int schemaId)
         {
-            return  await _dbSchemasDal.GetSchemaTables(schemaId);
+            return await _dbSchemasDal.GetSchemaTables(schemaId);
         }
 
         public async Task<List<dynamic>> GetSchemas()

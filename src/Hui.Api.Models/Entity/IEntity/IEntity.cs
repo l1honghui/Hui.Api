@@ -18,11 +18,5 @@ namespace Hui.Api.Model.Entity.IEntity
             get;
             set;
         }
-
-        /// <summary>
-        /// Checks if this entity is transient (not persisted to database and it has not an <see cref="P:Hui.Domain.Entities.IEntity`1.Id" />).
-        /// </summary>
-        /// <returns>True, if this entity is transient</returns>
-        bool IsTransient();
     }
 }

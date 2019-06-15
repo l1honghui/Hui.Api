@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hui.Api.Dal.Repositories
 {
-    public abstract class RepositoryBase<TEntity, TPrimaryKey> : IRepositoryy<TEntity, TPrimaryKey> where TEntity : class, IEntity<TPrimaryKey>
+    public abstract class RepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, TPrimaryKey> where TEntity : class, IEntity<TPrimaryKey>
     {
         public abstract IQueryable<TEntity> GetAll();
 
@@ -107,39 +107,7 @@ namespace Hui.Api.Dal.Repositories
             return Task.FromResult(Insert(entity));
         }
 
-        public virtual TPrimaryKey InsertAndGetId(TEntity entity)
-        {
-            return Insert(entity).Id;
-        }
-
-        public virtual Task<TPrimaryKey> InsertAndGetIdAsync(TEntity entity)
-        {
-            return Task.FromResult(InsertAndGetId(entity));
-        }
-
-        public virtual TEntity InsertOrUpdate(TEntity entity)
-        {
-            return entity.IsTransient()
-                ? Insert(entity)
-                : Update(entity);
-        }
-
-        public virtual async Task<TEntity> InsertOrUpdateAsync(TEntity entity)
-        {
-            return entity.IsTransient()
-                ? await InsertAsync(entity)
-                : await UpdateAsync(entity);
-        }
-
-        public virtual TPrimaryKey InsertOrUpdateAndGetId(TEntity entity)
-        {
-            return InsertOrUpdate(entity).Id;
-        }
-
-        public virtual Task<TPrimaryKey> InsertOrUpdateAndGetIdAsync(TEntity entity)
-        {
-            return Task.FromResult(InsertOrUpdateAndGetId(entity));
-        }
+        public abstract void InsertRange(params TEntity[] entity);
 
         public abstract TEntity Update(TEntity entity);
 
@@ -161,6 +129,10 @@ namespace Hui.Api.Dal.Repositories
             await updateAction(entity);
             return entity;
         }
+
+        public abstract void UpdateRange(params TEntity[] entitys);
+
+        public abstract void DeleteRange(params TEntity[] entity);
 
         public abstract void Delete(TEntity entity);
 
@@ -245,5 +217,7 @@ namespace Hui.Api.Dal.Repositories
 
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
         }
+
+        public abstract Task<int> SaveAsync();
     }
 }

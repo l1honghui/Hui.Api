@@ -1,14 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using Hui.Api.Dal.EntityFrameworkCore;
-using Hui.Api.Model.Entity.IEntity;
+﻿using Hui.Api.Model.Entity.IEntity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hui.Api.Dal.Repositories
@@ -20,27 +15,12 @@ namespace Hui.Api.Dal.Repositories
         /// <summary>
         /// Gets EF DbContext object.
         /// </summary>
-        public TDbContext Context = null;
+        protected TDbContext Context = null;
 
         /// <summary>
         /// Gets DbSet for given entity.
         /// </summary>
-        public virtual DbSet<TEntity> Table => Context.Set<TEntity>();
-
-        public virtual DbConnection Connection
-        {
-            get
-            {
-                var connection = Context.Database.GetDbConnection();
-
-                if (connection.State != ConnectionState.Open)
-                {
-                    connection.Open();
-                }
-
-                return connection;
-            }
-        }
+        protected virtual DbSet<TEntity> Table => Context.Set<TEntity>();
 
         /// <summary>
         /// Constructor
@@ -60,7 +40,7 @@ namespace Hui.Api.Dal.Repositories
         {
             var query = Table.AsQueryable();
 
-            if (propertySelectors != null )
+            if (propertySelectors != null)
             {
                 foreach (var propertySelector in propertySelectors)
                 {
@@ -106,52 +86,9 @@ namespace Hui.Api.Dal.Repositories
             return Task.FromResult(Insert(entity));
         }
 
-        public override TPrimaryKey InsertAndGetId(TEntity entity)
+        public override void InsertRange(params TEntity[] entity)
         {
-            entity = Insert(entity);
-
-            if (entity.IsTransient())
-            {
-                Context.SaveChanges();
-            }
-
-            return entity.Id;
-        }
-
-        public override async Task<TPrimaryKey> InsertAndGetIdAsync(TEntity entity)
-        {
-            entity = await InsertAsync(entity);
-
-            if (entity.IsTransient())
-            {
-                await Context.SaveChangesAsync();
-            }
-
-            return entity.Id;
-        }
-
-        public override TPrimaryKey InsertOrUpdateAndGetId(TEntity entity)
-        {
-            entity = InsertOrUpdate(entity);
-
-            if (entity.IsTransient())
-            {
-                Context.SaveChanges();
-            }
-
-            return entity.Id;
-        }
-
-        public override async Task<TPrimaryKey> InsertOrUpdateAndGetIdAsync(TEntity entity)
-        {
-            entity = await InsertOrUpdateAsync(entity);
-
-            if (entity.IsTransient())
-            {
-                await Context.SaveChangesAsync();
-            }
-
-            return entity.Id;
+            Table.AddRange(entity);
         }
 
         public override TEntity Update(TEntity entity)
@@ -165,6 +102,17 @@ namespace Hui.Api.Dal.Repositories
         {
             entity = Update(entity);
             return Task.FromResult(entity);
+        }
+
+        public override void UpdateRange(params TEntity[] entitys)
+        {
+            // UpdateRange同时具备新增和更新功能
+            Table.UpdateRange(entitys);
+        }
+
+        public override void DeleteRange(params TEntity[] entity)
+        {
+            Table.RemoveRange(entity);
         }
 
         public override void Delete(TEntity entity)
@@ -228,24 +176,6 @@ namespace Hui.Api.Dal.Repositories
             return Context;
         }
 
-        public Task EnsureCollectionLoadedAsync<TProperty>(
-            TEntity entity,
-            Expression<Func<TEntity, IEnumerable<TProperty>>> collectionExpression,
-            CancellationToken cancellationToken)
-            where TProperty : class
-        {
-            return Context.Entry(entity).Collection(collectionExpression).LoadAsync(cancellationToken);
-        }
-
-        public Task EnsurePropertyLoadedAsync<TProperty>(
-            TEntity entity,
-            Expression<Func<TEntity, TProperty>> propertyExpression,
-            CancellationToken cancellationToken)
-            where TProperty : class
-        {
-            return Context.Entry(entity).Reference(propertyExpression).LoadAsync(cancellationToken);
-        }
-
         private TEntity GetFromChangeTrackerOrNull(TPrimaryKey id)
         {
             var entry = Context.ChangeTracker.Entries()
@@ -257,5 +187,11 @@ namespace Hui.Api.Dal.Repositories
 
             return entry?.Entity as TEntity;
         }
+
+        public override async Task<int> SaveAsync()
+        {
+            return await Context.SaveChangesAsync();
+        }
+
     }
 }

@@ -1,23 +1,13 @@
 ﻿using Dapper;
-using Microsoft.EntityFrameworkCore;
 using Hui.Api.Dal.Dapper;
-using Hui.Api.Dal.EntityFrameworkCore;
-using System;
+using Hui.Api.Models.Entity;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Hui.Api.Dal.Impl
 {
     public class DbSchemasDal : IDbSchemasDal
     {
-        private readonly ApiContext _dbContext;
-
-        public DbSchemasDal(ApiContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
         public async Task<List<dynamic>> GetAllDataBase()
         {
             return await DapperHelper<dynamic>.QueryAsync("SELECT * FROM PG_DATABASE");

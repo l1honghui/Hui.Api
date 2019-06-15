@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Hui.Api.Dal.EntityFrameworkCore
+namespace Hui.Api.Models.Entity
 {
     /// <summary>
     /// 检查/检验Context

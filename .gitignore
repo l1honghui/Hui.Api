@@ -11,3 +11,9 @@
 /src/Hui.Api.Service/bin
 /src/Hui.Api.Service/obj
 /.vs/Hui.Api/v15
+/.vs/Hui.Api
+/src/Hui.Api.Bll/Hui.Api.Bll.csproj.user
+/src/Hui.Api.Dal/Hui.Api.Dal.csproj.user
+/src/Hui.Api.Models/Hui.Api.Models.csproj.user
+/Hui.Api.sln.DotSettings.user
+/src/Hui.Api.Service/logs

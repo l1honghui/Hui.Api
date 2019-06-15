@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Hui.Api.Dal.Repositories
 {
-    public interface IRepositoryy<TEntity, TPrimaryKey>
+    public interface IRepository<TEntity, TPrimaryKey>
     {
-		/// <summary>
-		/// Used to get a IQueryable that is used to retrieve entities from entire table.
-		/// </summary>
-		/// <returns>IQueryable to be used to select entities from database</returns>
-		IQueryable<TEntity> GetAll();
+        /// <summary>
+        /// Used to get a IQueryable that is used to retrieve entities from entire table.
+        /// </summary>
+        /// <returns>IQueryable to be used to select entities from database</returns>
+        IQueryable<TEntity> GetAll();
 
         /// <summary>
         /// Used to get a IQueryable that is used to retrieve entities from entire table.
@@ -51,8 +51,6 @@ namespace Hui.Api.Dal.Repositories
 
         /// <summary>
         /// Used to run a query over entire entities.
-        /// <see cref="T:Hui.Domain.Uow.UnitOfWorkAttribute" /> attribute is not always necessary (as opposite to <see cref="M:Hui.Domain.Repositories.IRepository`2.GetAll" />)
-        /// if <paramref name="queryMethod" /> finishes IQueryable with ToList, FirstOrDefault etc..
         /// </summary>
         /// <typeparam name="T">Type of return value of this method</typeparam>
         /// <param name="queryMethod">This method is used to query over entities</param>
@@ -133,54 +131,10 @@ namespace Hui.Api.Dal.Repositories
         Task<TEntity> InsertAsync(TEntity entity);
 
         /// <summary>
-        /// Inserts a new entity and gets it's Id.
-        /// It may require to save current unit of work
-        /// to be able to retrieve id.
+        /// Inserts range entity.
         /// </summary>
-        /// <param name="entity">Entity</param>
-        /// <returns>Id of the entity</returns>
-        TPrimaryKey InsertAndGetId(TEntity entity);
-
-        /// <summary>
-        /// Inserts a new entity and gets it's Id.
-        /// It may require to save current unit of work
-        /// to be able to retrieve id.
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        /// <returns>Id of the entity</returns>
-        Task<TPrimaryKey> InsertAndGetIdAsync(TEntity entity);
-
-        /// <summary>
-        /// Inserts or updates given entity depending on Id's value.
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        TEntity InsertOrUpdate(TEntity entity);
-
-        /// <summary>
-        /// Inserts or updates given entity depending on Id's value.
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        Task<TEntity> InsertOrUpdateAsync(TEntity entity);
-
-        /// <summary>
-        /// Inserts or updates given entity depending on Id's value.
-        /// Also returns Id of the entity.
-        /// It may require to save current unit of work
-        /// to be able to retrieve id.
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        /// <returns>Id of the entity</returns>
-        TPrimaryKey InsertOrUpdateAndGetId(TEntity entity);
-
-        /// <summary>
-        /// Inserts or updates given entity depending on Id's value.
-        /// Also returns Id of the entity.
-        /// It may require to save current unit of work
-        /// to be able to retrieve id.
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        /// <returns>Id of the entity</returns>
-        Task<TPrimaryKey> InsertOrUpdateAndGetIdAsync(TEntity entity);
+        /// <param name="entity"></param>
+        void InsertRange(params TEntity[] entity);
 
         /// <summary>
         /// Updates an existing entity.
@@ -209,6 +163,18 @@ namespace Hui.Api.Dal.Repositories
         /// <param name="updateAction">Action that can be used to change values of the entity</param>
         /// <returns>Updated entity</returns>
         Task<TEntity> UpdateAsync(TPrimaryKey id, Func<TEntity, Task> updateAction);
+
+        /// <summary>
+        /// Update Range existing entity.
+        /// </summary>
+        /// <param name="entitys"></param>
+        void UpdateRange(params TEntity[] entitys);
+
+        /// <summary>
+        /// Delete Range entity.
+        /// </summary>
+        /// <param name="entity"></param>
+        void DeleteRange(params TEntity[] entity);
 
         /// <summary>
         /// Deletes an entity.
@@ -305,5 +271,12 @@ namespace Hui.Api.Dal.Repositories
         /// <param name="predicate">A method to filter count</param>
         /// <returns>Count of entities</returns>
         Task<long> LongCountAsync(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// save all change
+        /// </summary>
+        /// <returns></returns>
+        Task<int> SaveAsync();
+
     }
 }

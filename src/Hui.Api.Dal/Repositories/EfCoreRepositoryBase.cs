@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 namespace Hui.Api.Dal.Repositories
 {
     /// <summary>
-    /// DAL基类 提供基础CURD功能 使用该类的实体必须继承IEntity
-    /// 该类提供方法查询出来的数据都自动会挂跟踪，如果不需要跟踪请加AsNoTracking()自行编写业务查询逻辑
+    /// 封装常用CURD的仓储方法类
     /// </summary>
     /// <typeparam name="TDbContext"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
@@ -37,6 +36,17 @@ namespace Hui.Api.Dal.Repositories
         public EfCoreRepositoryBase(TDbContext dbContext)
         {
             Context = dbContext;
+        }
+        
+        /// <summary>
+        /// 不跟踪返回结果的查询方法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="queryMethod"></param>
+        /// <returns></returns>
+        public override T QueryAsNoTracking<T>(Func<IQueryable<TEntity>, T> queryMethod)
+        {
+            return queryMethod(Table.AsNoTracking());
         }
 
         public override IQueryable<TEntity> GetAll()
@@ -196,13 +206,16 @@ namespace Hui.Api.Dal.Repositories
             return entry?.Entity as TEntity;
         }
 
+        public override int Save()
+        {
+            return Context.SaveChanges();
+        }
+
         public override async Task<int> SaveAsync()
         {
             return await Context.SaveChangesAsync();
         }
-
-
-
+               
         public override void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadUncommitted)
         {
             if (Context.Database.CurrentTransaction == null)
@@ -239,5 +252,6 @@ namespace Hui.Api.Dal.Repositories
                 Context.Database.CurrentTransaction.Rollback();
             }
         }
+
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hui.Api.Dal.Repositories
 {
-    public abstract class RespositoryBaseLite<TEntity>
+    public abstract class RespositoryBaseLite<TEntity> : IRepositoryLite<TEntity>
     {
         public abstract IQueryable<TEntity> GetAll();
 
@@ -40,6 +40,8 @@ namespace Hui.Api.Dal.Repositories
         {
             return queryMethod(GetAll());
         }
+        
+        public abstract T QueryAsNoTracking<T>(Func<IQueryable<TEntity>, T> queryMethod);
 
         public virtual TEntity Single(Expression<Func<TEntity, bool>> predicate)
         {
@@ -136,6 +138,12 @@ namespace Hui.Api.Dal.Repositories
         {
             return Task.FromResult(LongCount(predicate));
         }
+
+        public abstract void InsertRange(params TEntity[] entity);
+
+        public abstract void UpdateRange(params TEntity[] entitys);
+
+        public abstract void DeleteRange(params TEntity[] entity);
 
         public abstract int Save();
 

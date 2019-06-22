@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Hui.Api.Dal.Repositories
 {
     /// <summary>
-    /// 不带主键的仓储
+    /// 不带主键操作的仓储
     /// </summary>
     /// <typeparam name="TDbContext"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
@@ -35,6 +35,11 @@ namespace Hui.Api.Dal.Repositories
         public EfCoreRepositoryBaseLite(TDbContext dbContext)
         {
             Context = dbContext;
+        }
+
+        public override T QueryAsNoTracking<T>(Func<IQueryable<TEntity>, T> queryMethod)
+        {
+            return queryMethod(Table.AsNoTracking());
         }
 
         public override IQueryable<TEntity> GetAll()
@@ -137,9 +142,20 @@ namespace Hui.Api.Dal.Repositories
             Table.Attach(entity);
         }
 
-        public DbContext GetDbContext()
+        public override void InsertRange(params TEntity[] entity)
         {
-            return Context;
+            Table.AddRange(entity);
+        }
+
+        public override void UpdateRange(params TEntity[] entitys)
+        {
+            // UpdateRange同时具备新增和更新功能
+            Table.UpdateRange(entitys);
+        }
+
+        public override void DeleteRange(params TEntity[] entity)
+        {
+            Table.RemoveRange(entity);
         }
 
         public override int Save()

@@ -2,6 +2,7 @@
 using Hui.Api.Model.Entity.IEntity;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -223,5 +224,11 @@ namespace Hui.Api.Dal.Repositories
         }
 
         public abstract Task<int> SaveAsync();
+
+        public abstract void BeginTransaction(IsolationLevel isolationLevel);
+
+        public abstract void Commit();
+
+        public abstract void Rollback();
     }
 }

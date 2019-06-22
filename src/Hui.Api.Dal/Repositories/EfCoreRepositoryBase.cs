@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -200,5 +201,43 @@ namespace Hui.Api.Dal.Repositories
             return await Context.SaveChangesAsync();
         }
 
+
+
+        public override void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadUncommitted)
+        {
+            if (Context.Database.CurrentTransaction == null)
+            {
+                Context.Database.BeginTransaction(isolationLevel);
+            }
+        }
+
+        public override void Commit()
+        {
+            var transaction = Context.Database.CurrentTransaction;
+            if (transaction != null)
+            {
+                try
+                {
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    transaction.Dispose();
+                }
+            }
+        }
+
+        public override void Rollback()
+        {
+            if (Context.Database.CurrentTransaction != null)
+            {
+                Context.Database.CurrentTransaction.Rollback();
+            }
+        }
     }
 }

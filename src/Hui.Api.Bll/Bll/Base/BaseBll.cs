@@ -13,9 +13,9 @@ namespace Hui.Api.Bll
     /// <typeparam name="TRepository"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TPrimaryKey"></typeparam>
-    public class BaseBll <TRepository, TEntity, TPrimaryKey> :  IBaseBll<TEntity, TPrimaryKey>
+    public class BaseBll<TRepository, TEntity, TPrimaryKey> : IBaseBll<TEntity, TPrimaryKey>
+        where TRepository : IRepository<TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>
-         where TRepository : IRepository<TEntity, TPrimaryKey>
     {
         private readonly TRepository _repository;
 

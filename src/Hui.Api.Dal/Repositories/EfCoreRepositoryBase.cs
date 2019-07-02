@@ -38,17 +38,6 @@ namespace Hui.Api.Dal.Repositories
             Context = dbContext;
         }
         
-        /// <summary>
-        /// 不跟踪返回结果的查询方法
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="queryMethod"></param>
-        /// <returns></returns>
-        public override T QueryAsNoTracking<T>(Func<IQueryable<TEntity>, T> queryMethod)
-        {
-            return queryMethod(Table.AsNoTracking());
-        }
-
         public override IQueryable<TEntity> GetAll()
         {
             return GetAllIncluding();

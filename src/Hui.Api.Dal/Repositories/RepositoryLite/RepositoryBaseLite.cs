@@ -43,6 +43,16 @@ namespace Hui.Api.Dal.Repositories
         
         public abstract T QueryAsNoTracking<T>(Func<IQueryable<TEntity>, T> queryMethod);
 
+        public Task<T> QueryAsync<T>(Func<IQueryable<TEntity>, T> queryMethod)
+        {
+            return Task.FromResult(Query(queryMethod));
+        }
+
+        public Task<T> QueryAsNoTrackingAsync<T>(Func<IQueryable<TEntity>, T> queryMethod)
+        {
+            return Task.FromResult(QueryAsNoTracking(queryMethod));
+        }
+
         public virtual TEntity Single(Expression<Func<TEntity, bool>> predicate)
         {
             return GetAll().Single(predicate);
@@ -63,11 +73,11 @@ namespace Hui.Api.Dal.Repositories
             return Task.FromResult(FirstOrDefault(predicate));
         }
 
-        public abstract TEntity Insert(TEntity entity);
+        public abstract TEntity Add(TEntity entity);
 
-        public virtual Task<TEntity> InsertAsync(TEntity entity)
+        public virtual Task<TEntity> AddAsync(TEntity entity)
         {
-            return Task.FromResult(Insert(entity));
+            return Task.FromResult(Add(entity));
         }
 
         public abstract TEntity Update(TEntity entity);
@@ -77,25 +87,25 @@ namespace Hui.Api.Dal.Repositories
             return Task.FromResult(Update(entity));
         }
 
-        public abstract void Delete(TEntity entity);
+        public abstract void Remove(TEntity entity);
 
-        public virtual Task DeleteAsync(TEntity entity)
+        public virtual Task RemoveAsync(TEntity entity)
         {
-            Delete(entity);
+            Remove(entity);
             return Task.FromResult(0);
         }
 
-        public virtual void Delete(Expression<Func<TEntity, bool>> predicate)
+        public virtual void Remove(Expression<Func<TEntity, bool>> predicate)
         {
             foreach (var entity in GetAll().Where(predicate).ToList())
             {
-                Delete(entity);
+                Remove(entity);
             }
         }
 
-        public virtual Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual Task RemoveAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            Delete(predicate);
+            Remove(predicate);
             return Task.FromResult(0);
         }
 
@@ -139,11 +149,11 @@ namespace Hui.Api.Dal.Repositories
             return Task.FromResult(LongCount(predicate));
         }
 
-        public abstract void InsertRange(params TEntity[] entity);
+        public abstract void AddRange(IEnumerable<TEntity> entity);
 
-        public abstract void UpdateRange(params TEntity[] entitys);
+        public abstract void UpdateRange(IEnumerable<TEntity> entitys);
 
-        public abstract void DeleteRange(params TEntity[] entity);
+        public abstract void RemoveRange(IEnumerable<TEntity> entity);
 
         public abstract int Save();
 

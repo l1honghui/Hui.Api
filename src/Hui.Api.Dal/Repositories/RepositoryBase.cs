@@ -62,11 +62,11 @@ namespace Hui.Api.Dal.Repositories
             return entity;
         }
 
-        public abstract void Delete(TPrimaryKey id);
+        public abstract void Remove(TPrimaryKey id);
 
-        public virtual Task DeleteAsync(TPrimaryKey id)
+        public virtual Task RemoveAsync(TPrimaryKey id)
         {
-            Delete(id);
+            Remove(id);
             return Task.FromResult(0);
         }
 

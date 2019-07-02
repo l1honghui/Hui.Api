@@ -1,4 +1,4 @@
-﻿using Hui.Api.Dal.EntityFrameworkCore;
+﻿using Hui.Api.Models.Entity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

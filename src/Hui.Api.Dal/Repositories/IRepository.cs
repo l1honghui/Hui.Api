@@ -28,9 +28,9 @@ namespace Hui.Api.Dal.Repositories
 
         Task<TEntity> UpdateAsync(TPrimaryKey id, Func<TEntity, Task> updateAction);
 
-        void Delete(TPrimaryKey id);
+        void Remove(TPrimaryKey id);
 
-        Task DeleteAsync(TPrimaryKey id);
+        Task RemoveAsync(TPrimaryKey id);
       
     }
 }

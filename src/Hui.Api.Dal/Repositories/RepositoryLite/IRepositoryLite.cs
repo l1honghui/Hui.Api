@@ -13,6 +13,10 @@ namespace Hui.Api.Dal.Repositories
 
         T QueryAsNoTracking<T>(Func<IQueryable<TEntity>, T> queryMethod);
 
+        Task<T> QueryAsync<T>(Func<IQueryable<TEntity>, T> queryMethod);
+
+        Task<T> QueryAsNoTrackingAsync<T>(Func<IQueryable<TEntity>, T> queryMethod);
+
         IQueryable<TEntity> GetAll();
 
         List<TEntity> GetAllList();
@@ -31,21 +35,21 @@ namespace Hui.Api.Dal.Repositories
 
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
 
-        TEntity Insert(TEntity entity);
+        TEntity Add(TEntity entity);
 
-        Task<TEntity> InsertAsync(TEntity entity);
+        Task<TEntity> AddAsync(TEntity entity);
 
         TEntity Update(TEntity entity);
 
         Task<TEntity> UpdateAsync(TEntity entity);
 
-        void Delete(TEntity entity);
+        void Remove(TEntity entity);
 
-        Task DeleteAsync(TEntity entity);
+        Task RemoveAsync(TEntity entity);
 
-        void Delete(Expression<Func<TEntity, bool>> predicate);
+        void Remove(Expression<Func<TEntity, bool>> predicate);
 
-        Task DeleteAsync(Expression<Func<TEntity, bool>> predicate);
+        Task RemoveAsync(Expression<Func<TEntity, bool>> predicate);
 
         int Count();
 
@@ -63,11 +67,11 @@ namespace Hui.Api.Dal.Repositories
 
         Task<long> LongCountAsync(Expression<Func<TEntity, bool>> predicate);
 
-        void InsertRange(params TEntity[] entity);
+        void AddRange(IEnumerable<TEntity> entity);
 
-        void UpdateRange(params TEntity[] entitys);
+        void UpdateRange(IEnumerable<TEntity> entitys);
 
-        void DeleteRange(params TEntity[] entity);
+        void RemoveRange(IEnumerable<TEntity> entity);
 
         int Save();
 

@@ -94,17 +94,17 @@ namespace Hui.Api.Dal.Repositories
             return await GetAll().FirstOrDefaultAsync(predicate);
         }
 
-        public override TEntity Insert(TEntity entity)
+        public override TEntity Add(TEntity entity)
         {
             return Table.Add(entity).Entity;
         }
 
-        public override Task<TEntity> InsertAsync(TEntity entity)
+        public override Task<TEntity> AddAsync(TEntity entity)
         {
-            return Task.FromResult(Insert(entity));
+            return Task.FromResult(Add(entity));
         }
 
-        public override void InsertRange(params TEntity[] entity)
+        public override void AddRange(IEnumerable<TEntity> entity)
         {
             Table.AddRange(entity);
         }
@@ -122,36 +122,35 @@ namespace Hui.Api.Dal.Repositories
             return Task.FromResult(entity);
         }
 
-        public override void UpdateRange(params TEntity[] entitys)
+        public override void UpdateRange(IEnumerable<TEntity> entitys)
         {
-            // UpdateRange同时具备新增和更新功能
             Table.UpdateRange(entitys);
         }
 
-        public override void DeleteRange(params TEntity[] entity)
+        public override void RemoveRange(IEnumerable<TEntity> entity)
         {
             Table.RemoveRange(entity);
         }
 
-        public override void Delete(TEntity entity)
+        public override void Remove(TEntity entity)
         {
             AttachIfNot(entity);
             Table.Remove(entity);
         }
 
-        public override void Delete(TPrimaryKey id)
+        public override void Remove(TPrimaryKey id)
         {
             var entity = GetFromChangeTrackerOrNull(id);
             if (entity != null)
             {
-                Delete(entity);
+                Remove(entity);
                 return;
             }
 
             entity = FirstOrDefault(id);
             if (entity != null)
             {
-                Delete(entity);
+                Remove(entity);
                 return;
             }
 

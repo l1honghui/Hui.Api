@@ -33,7 +33,6 @@ namespace Hui.Api.Dal.Repositories
 
         Task RemoveAsync(TPrimaryKey id);
 
-
         T Query<T>(Func<IQueryable<TEntity>, T> queryMethod);
 
         T QueryAsNoTracking<T>(Func<IQueryable<TEntity>, T> queryMethod);

@@ -17,70 +17,70 @@ namespace Hui.Api.Bll
         where TRepository : IRepository<TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>
     {
-        private readonly TRepository _repository;
+        protected readonly TRepository Repository;
 
         public BaseBll(TRepository repository)
         {
-            _repository = repository;
+            Repository = repository;
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)
         {
-            var retEntity = await _repository.AddAsync(entity);
-            await _repository.SaveAsync();
+            var retEntity = await Repository.AddAsync(entity);
+            await Repository.SaveAsync();
             return retEntity;
         }
 
         public async Task<int> AddRangeAsync(List<TEntity> entityList)
         {
-            _repository.AddRange(entityList);
-            return await _repository.SaveAsync();
+            Repository.AddRange(entityList);
+            return await Repository.SaveAsync();
         }
 
         public async Task<int> RemoveAsync(TPrimaryKey id)
         {
-            _repository.Remove(id);
-            return await _repository.SaveAsync();
+            Repository.Remove(id);
+            return await Repository.SaveAsync();
         }
 
         public async Task<int> RemoveAsync(TEntity entity)
         {
-            _repository.Remove(entity);
-            return await _repository.SaveAsync();
+            Repository.Remove(entity);
+            return await Repository.SaveAsync();
         }
 
         public async Task<int> RemoveRangeAsync(List<TEntity> entityList)
         {
-            _repository.RemoveRange(entityList);
-            return await _repository.SaveAsync();
+            Repository.RemoveRange(entityList);
+            return await Repository.SaveAsync();
         }
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            _repository.Update(entity);
-            await _repository.SaveAsync();
+            Repository.Update(entity);
+            await Repository.SaveAsync();
             return entity;
         }
 
         public async Task<int> UpdateRangeAsync(List<TEntity> entityList)
         {
-            _repository.UpdateRange(entityList);
-            return await _repository.SaveAsync();
+            Repository.UpdateRange(entityList);
+            return await Repository.SaveAsync();
         }
 
         public async Task<TEntity> GetAsync(TPrimaryKey id)
         {
-            return await _repository.GetAsync(id);
+            return await Repository.GetAsync(id);
         }
 
         public async Task<T> QueryAsync<T>(Func<IQueryable<TEntity>, T> expression)
         {
-            return await _repository.QueryAsync(expression);
+            return await Repository.QueryAsync(expression);
         }
 
         public async Task<T> QueryAsNoTrackingAsync<T>(Func<IQueryable<TEntity>, T> expression)
         {
-            return await _repository.QueryAsNoTrackingAsync(expression);
+            return await Repository.QueryAsNoTrackingAsync(expression);
         }
     }
 }

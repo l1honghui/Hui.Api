@@ -18,10 +18,8 @@ namespace Hui.Api.Service
         public static IServiceCollection AddDiPrivateConfig(this IServiceCollection services)
         {
             Assembly[] assemblies = {
-
                 Assembly.Load("Hui.Api.Dal")
                 ,Assembly.Load("Hui.Api.Bll")
-
             };
 
             var types = assemblies

@@ -5,40 +5,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Hui.Api.Common.ServiceProvider;
+using Microsoft.Extensions.Configuration;
 
 namespace Hui.Api.Service
 {
-    public static class DIConfigHandle
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class BootStrapper
     {
+        
         /// <summary>
-        /// 
+        /// 初始化
         /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddDiPrivateConfig(this IServiceCollection services)
+        public static void Initialize(IServiceCollection services, IConfiguration configuration)
         {
-            Assembly[] assemblies = {
-                Assembly.Load("Hui.Api.Dal")
-                ,Assembly.Load("Hui.Api.Bll")
-            };
-
-            var types = assemblies
-                .SelectMany(a => a.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IDependency))))
-                .ToArray();
-
-            var tmpTypes = types.Where(_ => _.IsClass);
-            var didatas = types.Where(t => t.IsInterface)
-                .Select(t => new {
-                    serviceType = t,
-                    implementationType = tmpTypes.FirstOrDefault(c => c.GetInterfaces().Contains(t))
-                }).ToList();
-
-            didatas.ForEach(t =>
-            {
-                if (t.implementationType != null)
-                    services.AddScoped(t.serviceType, t.implementationType);
-            });
-            return services;
+            var serviceProvider = services.BuildServiceProvider();
+            ServiceProviderHelper.SetServiceProvider(serviceProvider);
         }
     }
 }

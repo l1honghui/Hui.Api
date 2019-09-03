@@ -2,7 +2,8 @@
 
 namespace Hui.Api.Bll.Bll
 {
-    public interface ITestBll : IBaseBll<TestEntity, int>
+    public interface ITestBll : IBaseBll<TestEntity>
     {
+        void TestMessage();
     }
 }

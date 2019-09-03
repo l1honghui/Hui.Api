@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hui.Api.Bll
 { 
-    public interface IBaseBll<TEntity, TPrimaryKey> : IDependency
+    public interface IBaseBll<TEntity> : IDependency
        where TEntity : class
     {
         /// <summary>
@@ -29,7 +29,7 @@ namespace Hui.Api.Bll
         /// </summary>
         /// <param name="primaryKey"></param>
         /// <returns></returns>
-        Task<int> RemoveAsync(TPrimaryKey primaryKey);
+        Task<int> RemoveAsync(object primaryKey);
 
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Hui.Api.Bll
         /// </summary>
         /// <param name="primaryKey"></param>
         /// <returns></returns>
-       Task<TEntity> GetAsync(TPrimaryKey id);
+       Task<TEntity> GetAsync(object id);
 
         /// <summary>
         /// 查询（自定义查询表达式）

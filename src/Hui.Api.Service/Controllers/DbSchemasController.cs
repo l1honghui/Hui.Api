@@ -1,36 +1,37 @@
-﻿using Hui.Api.Bll;
-using Hui.Api.Models.DbSchemas;
-using Microsoft.AspNetCore.Mvc;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Hui.Api.Bll;
+using Hui.Api.Models.DbSchemas;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace Synyi.Emr.DbSchemas.Service.Controllers
+namespace Hui.Api.Service.Controllers
 {
     /// <summary>
     /// 
     /// </summary>
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class DbSchemasController : ControllerBase
     {
-        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
-        private IDbSchemasBll _dbSchemasBll;
+        private readonly ILogger<DbSchemasController> _logger;
+        private readonly IDbSchemasBll _dbSchemasBll;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="dbSchemasBll"></param>
-        public DbSchemasController(IDbSchemasBll dbSchemasBll)
+        public DbSchemasController(IDbSchemasBll dbSchemasBll, ILogger<DbSchemasController> logger)
         {
             _dbSchemasBll = dbSchemasBll;
+            _logger = logger;
         }
 
         /// <summary>
         /// 获取所有schemas
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("schemas")]
         public async Task<ActionResult<ResponseData<List<dynamic>>>> GetSchemas()
         {
             try
@@ -40,7 +41,7 @@ namespace Synyi.Emr.DbSchemas.Service.Controllers
             }
             catch (Exception e)
             {
-                _logger.Error(e, e.Message);
+                _logger.LogError(e, e.Message);
                 Console.WriteLine(e);
                 return ResponseData<List<dynamic>>.Failure(500, e.Message, null);
             }
@@ -51,7 +52,7 @@ namespace Synyi.Emr.DbSchemas.Service.Controllers
         /// 获取schema所有table
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("tables")]
         public async Task<ActionResult<ResponseData<List<dynamic>>>> GetSchemaTables(string schemaTable)
         {
             try
@@ -75,7 +76,7 @@ namespace Synyi.Emr.DbSchemas.Service.Controllers
             }
             catch (Exception e)
             {
-                _logger.Error(e, e.Message);
+                _logger.LogError(e, e.Message);
                 Console.WriteLine(e);
                 return ResponseData<List<dynamic>>.Failure(500, e.Message, null);
             }
@@ -85,7 +86,7 @@ namespace Synyi.Emr.DbSchemas.Service.Controllers
         /// 获取table所有信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("table-info")]
         public async Task<ActionResult<ResponseData<List<dynamic>>>> GetTableInfos(string tableName)
         {
             try
@@ -97,7 +98,7 @@ namespace Synyi.Emr.DbSchemas.Service.Controllers
             }
             catch (Exception e)
             {
-                _logger.Error(e, e.Message);
+                _logger.LogError(e, e.Message);
                 Console.WriteLine(e);
                 return ResponseData<List<dynamic>>.Failure(500, e.Message, null);
             }

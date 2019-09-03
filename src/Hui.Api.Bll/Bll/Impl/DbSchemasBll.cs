@@ -1,15 +1,15 @@
-﻿using Hui.Api.Dal;
-using Hui.Api.Dal.Dal;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Hui.Api.Dal;
+using Hui.Api.Dal.Dal;
 
-namespace Hui.Api.Bll.Impl
+namespace Hui.Api.Bll.Bll.Impl
 {
     public class DbSchemasBll : IDbSchemasBll
     {
-        private IDbSchemasDal _dbSchemasDal;
+        private readonly IDbSchemasDal _dbSchemasDal;
 
-        private ITestDal _testDal;
+        private readonly ITestDal _testDal;
 
         public DbSchemasBll(IDbSchemasDal dbSchemasDal, ITestDal testDal)
         {

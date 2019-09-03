@@ -27,7 +27,7 @@ namespace Hui.Api.Common.Attributes
             var methodInfo =
                 $"{context.ServiceMethod.DeclaringType?.Namespace}.{context.ServiceMethod.DeclaringType?.Name}.{context.ServiceMethod.Name}";
             var logMsg =
-                $"--->>> MethodInfo:{methodInfo},Invoke ElapsedMilliseconds:{timeElapsed};MethodInfo:{methodInfo}";
+                $"--->>> MethodInfo:{methodInfo},Invoke ElapsedMilliseconds:{timeElapsed}ms，MethodInfo:{methodInfo}";
             if (timeElapsed > WarningMilliseconds)
             {
                 _logger.LogWarning(logMsg);

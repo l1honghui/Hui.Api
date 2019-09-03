@@ -1,21 +1,19 @@
-﻿using Hui.Api.Dal.Repositories;
-using Hui.Api.Model.Entity.IEntity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hui.Api.Dal.Repositories;
 
-namespace Hui.Api.Bll
+namespace Hui.Api.Bll.Bll.Base
 {
     /// <summary>
     /// 常用CURD封装
     /// </summary>
     /// <typeparam name="TRepository"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TPrimaryKey"></typeparam>
-    public class BaseBll<TRepository, TEntity, TPrimaryKey> : IBaseBll<TEntity, TPrimaryKey>
-        where TRepository : IRepository<TEntity, TPrimaryKey>
-        where TEntity : class, IEntity<TPrimaryKey>
+    public class BaseBll<TRepository, TEntity> : IBaseBll<TEntity>
+        where TRepository : IRepository<TEntity>
+        where TEntity : class
     {
         protected readonly TRepository Repository;
 
@@ -37,7 +35,7 @@ namespace Hui.Api.Bll
             return await Repository.SaveAsync();
         }
 
-        public async Task<int> RemoveAsync(TPrimaryKey id)
+        public async Task<int> RemoveAsync(object id)
         {
             Repository.Remove(id);
             return await Repository.SaveAsync();
@@ -68,7 +66,7 @@ namespace Hui.Api.Bll
             return await Repository.SaveAsync();
         }
 
-        public async Task<TEntity> GetAsync(TPrimaryKey id)
+        public async Task<TEntity> GetAsync(object id)
         {
             return await Repository.GetAsync(id);
         }

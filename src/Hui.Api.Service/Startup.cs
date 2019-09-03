@@ -1,4 +1,5 @@
-﻿using Hui.Api.Models.Entity;
+﻿using AspectCore.Extensions.DependencyInjection;
+using Hui.Api.Models.Entity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,9 @@ using System.IO;
 
 namespace Hui.Api.Service
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Startup
     {
         /// <summary>
@@ -23,10 +27,16 @@ namespace Hui.Api.Service
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        private IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
             {
@@ -45,8 +55,15 @@ namespace Hui.Api.Service
             services.AddMvc();
             // 添加dbcontext
             services.AddDbContext<ApiContext>(opt => opt.UseNpgsql(Configuration["ConnectionStrings:PostgreSql"]));
+            //配置AspectCore
 
             services.AddDiPrivateConfig();
+            BootStrapper.Initialize(services, Configuration);
+            return services.ConfigureDynamicProxy(p =>
+            {
+                p.ThrowAspectException = false;
+            }).BuildDynamicProxyServiceProvider();
+
         }
 
         /// <summary>

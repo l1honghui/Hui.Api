@@ -1,11 +1,11 @@
-﻿using Hui.Api.Model.Entity.IEntity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Hui.Api.Common.EmrException;
 
 namespace Hui.Api.Dal.Repositories
 {
@@ -14,15 +14,14 @@ namespace Hui.Api.Dal.Repositories
     /// </summary>
     /// <typeparam name="TDbContext"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TPrimaryKey">主键</typeparam>
-    public class EfCoreRepositoryBase<TDbContext, TEntity, TPrimaryKey> : RepositoryBase<TEntity, TPrimaryKey>
-        where TDbContext : DbContext
-        where TEntity : class, IEntity<TPrimaryKey>
+    public class EfCoreRepositoryBase<TDbContext, TEntity> : RepositoryBase<TEntity>
+       where TDbContext : DbContext
+        where TEntity : class
     {
         /// <summary>
         /// Gets EF DbContext object.
         /// </summary>
-        protected TDbContext Context = null;
+        protected TDbContext Context;
 
         /// <summary>
         /// Gets DbSet for given entity.
@@ -32,12 +31,27 @@ namespace Hui.Api.Dal.Repositories
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="dbContextProvider"></param>
+        /// <param name="dbContext"></param>
         public EfCoreRepositoryBase(TDbContext dbContext)
         {
             Context = dbContext;
         }
-        
+
+        /// <summary>
+        /// 找不到则抛EntityNotFoundException异常，如果需要自定义异常信息，用FirstOrDefault查找
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public override TEntity Get(object id)
+        {
+            var val = Table.Find(id);
+            if (val == null)
+            {
+                throw new EntityNotFoundException(typeof(TEntity), id);
+            }
+            return val;
+        }
+
         public override IQueryable<TEntity> GetAll()
         {
             return GetAllIncluding();
@@ -73,11 +87,6 @@ namespace Hui.Api.Dal.Repositories
             return await GetAll().SingleAsync(predicate);
         }
 
-        public override async Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id)
-        {
-            return await GetAll().FirstOrDefaultAsync(CreateEqualityExpressionForId(id));
-        }
-
         public override async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await GetAll().FirstOrDefaultAsync(predicate);
@@ -93,11 +102,6 @@ namespace Hui.Api.Dal.Repositories
             return Task.FromResult(Add(entity));
         }
 
-        public override void AddRange(IEnumerable<TEntity> entity)
-        {
-            Table.AddRange(entity);
-        }
-
         public override TEntity Update(TEntity entity)
         {
             AttachIfNot(entity);
@@ -111,6 +115,17 @@ namespace Hui.Api.Dal.Repositories
             return Task.FromResult(entity);
         }
 
+        public override void Remove(TEntity entity)
+        {
+            AttachIfNot(entity);
+            Table.Remove(entity);
+        }
+
+        public override void AddRange(IEnumerable<TEntity> entity)
+        {
+            Table.AddRange(entity);
+        }
+
         public override void UpdateRange(IEnumerable<TEntity> entitys)
         {
             Table.UpdateRange(entitys);
@@ -119,31 +134,6 @@ namespace Hui.Api.Dal.Repositories
         public override void RemoveRange(IEnumerable<TEntity> entity)
         {
             Table.RemoveRange(entity);
-        }
-
-        public override void Remove(TEntity entity)
-        {
-            AttachIfNot(entity);
-            Table.Remove(entity);
-        }
-
-        public override void Remove(TPrimaryKey id)
-        {
-            var entity = GetFromChangeTrackerOrNull(id);
-            if (entity != null)
-            {
-                Remove(entity);
-                return;
-            }
-
-            entity = FirstOrDefault(id);
-            if (entity != null)
-            {
-                Remove(entity);
-                return;
-            }
-
-            //Could not found the entity, do nothing.
         }
 
         public override async Task<int> CountAsync()
@@ -182,18 +172,6 @@ namespace Hui.Api.Dal.Repositories
             return Context;
         }
 
-        private TEntity GetFromChangeTrackerOrNull(TPrimaryKey id)
-        {
-            var entry = Context.ChangeTracker.Entries()
-                .FirstOrDefault(
-                    ent =>
-                        ent.Entity is TEntity &&
-                        EqualityComparer<TPrimaryKey>.Default.Equals(id, (ent.Entity as TEntity).Id)
-                );
-
-            return entry?.Entity as TEntity;
-        }
-
         public override int Save()
         {
             return Context.SaveChanges();
@@ -203,8 +181,8 @@ namespace Hui.Api.Dal.Repositories
         {
             return await Context.SaveChangesAsync();
         }
-               
-        public override void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadUncommitted)
+
+        public override void BeginTransaction(IsolationLevel isolationLevel)
         {
             if (Context.Database.CurrentTransaction == null)
             {
@@ -221,10 +199,10 @@ namespace Hui.Api.Dal.Repositories
                 {
                     transaction.Commit();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     transaction.Rollback();
-                    throw ex;
+                    throw;
                 }
                 finally
                 {
@@ -235,11 +213,7 @@ namespace Hui.Api.Dal.Repositories
 
         public override void Rollback()
         {
-            if (Context.Database.CurrentTransaction != null)
-            {
-                Context.Database.CurrentTransaction.Rollback();
-            }
+            Context.Database.CurrentTransaction?.Rollback();
         }
-
     }
 }

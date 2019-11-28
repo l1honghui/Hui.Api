@@ -14,7 +14,7 @@ namespace Hui.Api.Dal.Dapper
         /// <summary>
         /// 数据库连接字符串
         /// </summary>
-        private static readonly string connectionString = ConfigHelper.Configuration["ConnectionStrings:PostgreSql"];
+        private static readonly string ConnectionString = ConfigHelper.Configuration["DbConnectionStrings"];
 
 
         /// <summary>  
@@ -24,7 +24,7 @@ namespace Hui.Api.Dal.Dapper
         /// <returns></returns>  
         public static IDbConnection OpenConnection(string connStr = null)
         {
-            connStr = connStr ?? connectionString;
+            connStr = connStr ?? ConnectionString;
             var conn = new NpgsqlConnection(connStr);
             conn.Open();
             return conn;
@@ -38,7 +38,7 @@ namespace Hui.Api.Dal.Dapper
         /// <returns></returns>
         public static List<T> Query(string sql, object param = null)
         {
-            using (var con = new NpgsqlConnection(connectionString))
+            using (var con = new NpgsqlConnection(ConnectionString))
             {
                 return con.Query<T>(sql, param).ToList();
             }
@@ -51,7 +51,7 @@ namespace Hui.Api.Dal.Dapper
         /// <returns></returns>
         public static async Task<List<T>> QueryAsync(string sql, object param = null)
         {
-            using (var con = new NpgsqlConnection(connectionString))
+            using (var con = new NpgsqlConnection(ConnectionString))
             {
                 return (await con.QueryAsync<T>(sql, param)).ToList();
             }
@@ -200,7 +200,7 @@ namespace Hui.Api.Dal.Dapper
         /// <summary>
         /// 带参数的存储过程
         /// </summary>
-        /// <param name="sql"></param>
+        /// <param name="proc"></param>
         /// <param name="param"></param>
         /// <returns></returns>
         public static List<T> ExecutePro(string proc, object param)
@@ -255,8 +255,7 @@ namespace Hui.Api.Dal.Dapper
         ///demo:
         ///dic.Add("Insert into Users values (@UserName, @Email, @Address)",
         /// </summary>
-        /// <param name="Key">多条SQL</param>
-        /// <param name="Value">param</param>
+        /// <param name="dic">key:SQL,value:param</param>
         /// <returns></returns>
         public static int ExecuteTransaction(Dictionary<string, object> dic)
         {

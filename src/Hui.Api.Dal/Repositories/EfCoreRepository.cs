@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hui.Api.Common.EmrException;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Hui.Api.Common.EmrException;
 
 namespace Hui.Api.Dal.Repositories
 {
@@ -14,7 +14,7 @@ namespace Hui.Api.Dal.Repositories
     /// </summary>
     /// <typeparam name="TDbContext"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
-    public class EfCoreRepositoryBase<TDbContext, TEntity> : RepositoryBase<TEntity>
+    public class EfCoreRepository<TDbContext, TEntity> : RepositoryBase<TEntity>
        where TDbContext : DbContext
         where TEntity : class
     {
@@ -32,7 +32,7 @@ namespace Hui.Api.Dal.Repositories
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        public EfCoreRepositoryBase(TDbContext dbContext)
+        public EfCoreRepository(TDbContext dbContext)
         {
             Context = dbContext;
         }

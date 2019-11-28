@@ -1,12 +1,11 @@
-﻿using Dapper;
-using Hui.Api.Dal.Dapper;
-using Hui.Api.Models.Entity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dapper;
+using Hui.Api.Dal.Dapper;
 
-namespace Hui.Api.Dal.Impl
+namespace Hui.Api.Dal.Data.Impl
 {
-    public class DbSchemasDal : IDbSchemasDal
+    public class DbSchemasRepository : IDbSchemasRepository
     {
         public async Task<List<dynamic>> GetAllDataBase()
         {
@@ -33,18 +32,18 @@ WHERE c.relpersistence = 'p' AND c.relkind = 'r' order by tablename");
             dynamicParams.Add("relnamespace", schemaId);
             return await DapperHelper<dynamic>.QueryAsync(@"SELECT c.relname AS tableName, d.description
                                                     FROM pg_class c
-	                                                    LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+                                                        LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
                                                         LEFT JOIN pg_description d ON c.oid = d.objoid
                                                     WHERE d.objsubid = 0
-	                                                    AND c.relnamespace = @relnamespace ORDER BY C.relname", dynamicParams);
+                                                        AND c.relnamespace = @relnamespace ORDER BY C.relname", dynamicParams);
         }
 
-        public async Task<List<dynamic>> GetTable(string schemas = null, string tablename = null)
+        public async Task<List<dynamic>> GetTable(string schemas = null, string tableName = null)
         {
-            if (!string.IsNullOrEmpty(tablename))
+            if (!string.IsNullOrEmpty(tableName))
             {
                 var dynamicParams = new DynamicParameters();
-                dynamicParams.Add("tablename", tablename.ToLower());
+                dynamicParams.Add("tablename", tableName.ToLower());
                 //return await DapperHelper<dynamic>.QueryAsync(@"SELECT tablename FROM pg_tables WHERE tablename = @tablename ORDER BY tablename", dynamicParams);
                 return await DapperHelper<dynamic>.QueryAsync(@"SELECT concat_ws('.',n.nspname,c.relname) as tablename, d.description FROM pg_class  c
                     left join pg_namespace n on n.oid = c. relnamespace
@@ -71,15 +70,15 @@ WHERE c.relpersistence = 'p' AND c.relkind = 'r' order by tablename");
             var dynamicParams = new DynamicParameters();
             dynamicParams.Add("relname", tableName.ToLower());
             return await DapperHelper<dynamic>.QueryAsync(@"SELECT a.attname AS columnName, format_type(a.atttypid, a.atttypmod) AS type, a.attnotnull as notnull
-	                                                    , col_description(a.attrelid, a.attnum) AS description
+                                                        , col_description(a.attrelid, a.attnum) AS description
                                                     FROM pg_attribute a
-	                                                    LEFT JOIN pg_class c ON a.attrelid = c.oid
+                                                        LEFT JOIN pg_class c ON a.attrelid = c.oid
                                                     WHERE c.relname = @relname
-	                                                    AND a.attnum > 0 AND a.atttypid != 0", dynamicParams);
+                                                        AND a.attnum > 0 AND a.atttypid != 0", dynamicParams);
         }
 
-    
 
-     
+
+
     }
 }

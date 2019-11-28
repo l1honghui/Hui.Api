@@ -4,20 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hui.Api.Dal.Repositories;
 
-namespace Hui.Api.Bll.Bll.Base
+namespace Hui.Api.Bll.Service.Base
 {
     /// <summary>
     /// 常用CURD封装
     /// </summary>
     /// <typeparam name="TRepository"></typeparam>
     /// <typeparam name="TEntity"></typeparam>
-    public class BaseBll<TRepository, TEntity> : IBaseBll<TEntity>
+    public class BaseService<TRepository, TEntity> : IBaseService<TEntity>
         where TRepository : IRepository<TEntity>
         where TEntity : class
     {
         protected readonly TRepository Repository;
 
-        public BaseBll(TRepository repository)
+        public BaseService(TRepository repository)
         {
             Repository = repository;
         }

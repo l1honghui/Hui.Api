@@ -1,13 +1,12 @@
-﻿using Hui.Api.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Hui.Api.Models;
 
-namespace Hui.Api.Bll
+namespace Hui.Api.Bll.Service.Base
 { 
-    public interface IBaseBll<TEntity> : IDependency
+    public interface IBaseService<TEntity> : IDependency
        where TEntity : class
     {
         /// <summary>

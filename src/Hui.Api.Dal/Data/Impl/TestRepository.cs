@@ -1,14 +1,14 @@
 ﻿using Hui.Api.Dal.Repositories;
 using Hui.Api.Models.Entity;
 
-namespace Hui.Api.Dal.Dal
+namespace Hui.Api.Dal.Data.Impl
 {
     /// <summary>
     /// 仓储测试Dal
     /// </summary>
-    public class TestDal : EfCoreRepositoryBase<ApiContext, TestEntity>, ITestDal
+    public class TestRepository : EfCoreRepository<ApiContext, TestEntity>, ITestRepository
     {
-        public TestDal(ApiContext dbContext)
+        public TestRepository(ApiContext dbContext)
             : base(dbContext)
         {
         }

@@ -1,33 +1,12 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-
-namespace Hui.Api.Models.DbSchemas
+﻿namespace Hui.Api.Models.Response
 {
     public class ResponseData<T>
     {
-        public int Code
-        {
-            [CompilerGenerated]
-            get;
-            [CompilerGenerated]
-            set;
-        }
+        public int Code { get; set; }
 
-        public string Message
-        {
-            [CompilerGenerated]
-            get;
-            [CompilerGenerated]
-            set;
-        }
+        public string Message { get; set; }
 
-        public T Data
-        {
-            [CompilerGenerated]
-            get;
-            [CompilerGenerated]
-            set;
-        }
+        public T Data { get; set; }
 
         public static ResponseData<T> Success(T value, string msg = "")
         {
@@ -36,14 +15,9 @@ namespace Hui.Api.Models.DbSchemas
                 Data = value,
                 Code = 0
             };
-            if (string.IsNullOrEmpty(msg))
-            {
-                responseData.Message = "请求成功";
-            }
-            else
-            {
-                responseData.Message = msg;
-            }
+            
+            responseData.Message = string.IsNullOrEmpty(msg) ? "请求成功" : msg;
+            
             return responseData;
         }
 
@@ -54,14 +28,9 @@ namespace Hui.Api.Models.DbSchemas
                 Data = value,
                 Code = code
             };
-            if (string.IsNullOrEmpty(msg))
-            {
-                responseData.Message = "系统错误";
-            }
-            else
-            {
-                responseData.Message = msg;
-            }
+            
+            responseData.Message = string.IsNullOrEmpty(msg) ? "系统错误" : msg;
+            
             return responseData;
         }
     }

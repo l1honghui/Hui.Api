@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Query;
+﻿using System.Linq;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
-using System.Linq;
-using System.Reflection;
 
-namespace Hui.Api.Dal
+namespace Hui.Api.Dal.Extensions
 {
     /// <summary>
     /// IQueryable扩展类

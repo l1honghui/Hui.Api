@@ -54,7 +54,7 @@ namespace Hui.Api.Service
             });
             services.AddMvc();
             // 添加dbcontext
-            services.AddDbContext<ApiContext>(opt => opt.UseNpgsql(Configuration["ConnectionStrings:PostgreSql"]));
+            services.AddDbContext<ApiContext>(opt => opt.UseNpgsql(Configuration["DbConnectionString"]));
             //配置AspectCore
 
             services.AddDiPrivateConfig();
@@ -63,7 +63,6 @@ namespace Hui.Api.Service
             {
                 p.ThrowAspectException = false;
             }).BuildDynamicProxyServiceProvider();
-
         }
 
         /// <summary>

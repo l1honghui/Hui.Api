@@ -1,6 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+    <!--- ServerGarbageCollection ： 服务器垃圾收集 ：不会让内存无限增长 -->
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+    <!--- ServerGarbageCollection ： 并发垃圾收集 ：不会让内存无限增长 -->
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 

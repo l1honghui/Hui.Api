@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Hui.Api.Bll;
-using Hui.Api.Models.DbSchemas;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Hui.Api.Bll.Service;
+using Hui.Api.Models.Response;
 
 namespace Hui.Api.Service.Controllers
 {
@@ -15,13 +15,14 @@ namespace Hui.Api.Service.Controllers
     public class DbSchemasController : ControllerBase
     {
         private readonly ILogger<DbSchemasController> _logger;
-        private readonly IDbSchemasBll _dbSchemasBll;
+        private readonly IDbSchemasService _dbSchemasBll;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="dbSchemasBll"></param>
-        public DbSchemasController(IDbSchemasBll dbSchemasBll, ILogger<DbSchemasController> logger)
+        /// <param name="logger"></param>
+        public DbSchemasController(IDbSchemasService dbSchemasBll, ILogger<DbSchemasController> logger)
         {
             _dbSchemasBll = dbSchemasBll;
             _logger = logger;
@@ -104,5 +105,4 @@ namespace Hui.Api.Service.Controllers
             }
         }
     }
-
 }

@@ -1,19 +1,16 @@
-﻿
-using Hui.Api.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Hui.Api.Models;
 
-namespace Hui.Api.Dal
+namespace Hui.Api.Bll.Service
 {
-    public interface IDbSchemasDal : IDependency
+    public interface IDbSchemasService : IDependency
     {
         Task<List<dynamic>> GetSchemas();
 
         Task<List<dynamic>> GetAllTables();
 
-        Task<List<dynamic>> GetTable(string schemas, string tablename);
+        Task<List<dynamic>> GetTable(string schemas, string tableName);
 
         Task<List<dynamic>> GetSchemaTables(int schemaId);
 
